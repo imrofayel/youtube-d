@@ -1,200 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YouTube Video Downloader</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
 
     <style>
-        * {
-            font-family: 'Geist', sans-serif;
-        }
+      * {
+        font-family: "Geist", sans-serif;
+      }
     </style>
-</head>
+  </head>
 
-<body class="bg-[#fafafa] min-h-screen flex items-center justify-center p-6">
+  <body class="bg-[#fafafa] min-h-screen flex items-center justify-center p-6">
     <div class="max-w-3xl w-full">
-        <!-- Header with Icons -->
-        <div class="text-center space-y-6 mb-12">
-            <div class="flex items-center justify-center gap-4">
-                <div class="w-12 h-12 text-[#ff0000]">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
-                    </svg>
-                </div>
-                <h1 class="text-4xl font-bold text-[#ff0000]">YouTube Downloader</h1>
-            </div>
+      <!-- Header with Icons -->
+      <div class="text-center space-y-6 mb-12">
+        <div class="flex items-center justify-center gap-4">
+          <div class="w-12 h-12 text-[#ff0000]">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+            >
+              <path
+                d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"
+              />
+            </svg>
+          </div>
+          <h1 class="text-4xl font-bold text-[#ff0000]">YouTube Downloader</h1>
         </div>
+      </div>
 
-        <!-- Main Content Card -->
-        <div class="bg-white bg-opacity-80 rounded-3xl p-6 border border-gray-200">
-            <form id="downloadForm" class="space-y-6">
-                <div class="space-y-4">
-                    <label for="video_url" class="block text-gray-800 drop-shadow-sm font-medium">
-                        YouTube Video URL
-                    </label>
-                    <input 
-                        type="text" 
-                        id="video_url" 
-                        name="video_url" 
-                        class="w-full px-4 py-3 focus:bg-gray-50/70 selection:bg-transparent !bg-gray-50/70 rounded-3xl p-8 border border-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#ff0000] focus:border-transparent"
-                        placeholder="https://www.youtube.com/watch?v=..." 
-                        required
-                    >
-                </div>
+      <!-- Main Content Card -->
+      <div
+        class="bg-white bg-opacity-80 rounded-3xl p-6 border border-gray-200"
+      >
+        <form id="downloadForm" class="space-y-6">
+          <div class="space-y-4">
+            <label
+              for="video_url"
+              class="block text-gray-800 drop-shadow-sm font-medium"
+            >
+              YouTube Video URL
+            </label>
+            <input
+              type="text"
+              id="video_url"
+              name="video_url"
+              class="w-full px-4 py-3 focus:bg-gray-50/70 selection:bg-transparent !bg-gray-50/70 rounded-3xl p-8 border border-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#ff0000] focus:border-transparent"
+              placeholder="https://www.youtube.com/watch?v=..."
+              required
+            />
+          </div>
 
-                <div class="space-y-4">
-                    <label for="format" class="block text-gray-800 drop-shadow-sm font-medium">
-                        Download Format
-                    </label>
-                    <select 
-                        id="format" 
-                        name="format" 
-                        class="w-full px-4 py-3 focus:bg-gray-50/70 selection:bg-transparent !bg-gray-50/70 rounded-3xl border border-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#ff0000] focus:border-transparent"
-                        required
-                        onchange="updateQualityOptions()"
-                    >
-                        <option value="mp4">MP4 (Video)</option>
-                        <option value="mp3">MP3 (Audio)</option>
-                    </select>
-                </div>
+          <div class="space-y-4">
+            <label
+              for="format"
+              class="block text-gray-800 drop-shadow-sm font-medium"
+            >
+              Download Format
+            </label>
+            <select
+              id="format"
+              name="format"
+              class="w-full px-4 py-3 focus:bg-gray-50/70 selection:bg-transparent !bg-gray-50/70 rounded-3xl border border-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#ff0000] focus:border-transparent appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23666666%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[length:1.18em] bg-[right_0.8rem_center] bg-no-repeat pr-12"
+              required
+              onchange="updateQualityOptions()"
+            >
+              <option value="mp4">MP4 (Video)</option>
+              <option value="mp3">MP3 (Audio)</option>
+            </select>
+          </div>
 
-                <div class="space-y-4">
-                    <label for="quality" class="block text-gray-800 drop-shadow-sm font-medium">
-                        Quality
-                    </label>
-                    <select 
-                        id="quality" 
-                        name="quality" 
-                        class="w-full px-4 py-3 focus:bg-gray-50/70 selection:bg-transparent !bg-gray-50/70 rounded-3xl border border-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#ff0000] focus:border-transparent"
-                        required
-                    >
-                        <!-- Video qualities -->
-                        <option value="2160" class="video-quality">4K (2160p)</option>
-                        <option value="1440" class="video-quality">QHD (1440p)</option>
-                        <option value="1080" class="video-quality">FHD (1080p)</option>
-                        <option value="720" class="video-quality" selected>HD (720p)</option>
-                        <option value="480" class="video-quality">SD (480p)</option>
-                        <option value="360" class="video-quality">LD (360p)</option>
-                        
-                        <!-- Audio qualities -->
-                        <option value="320" class="audio-quality hidden">320 kbps</option>
-                        <option value="256" class="audio-quality hidden">256 kbps</option>
-                        <option value="192" class="audio-quality hidden">192 kbps</option>
-                        <option value="128" class="audio-quality hidden">128 kbps</option>
-                    </select>
-                </div>
+          <div class="space-y-4">
+            <label
+              for="quality"
+              class="block text-gray-800 drop-shadow-sm font-medium"
+            >
+              Quality
+            </label>
+            <select
+              id="quality"
+              name="quality"
+              class="w-full px-4 py-3 focus:bg-gray-50/70 selection:bg-transparent !bg-gray-50/70 rounded-3xl border border-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#ff0000] focus:border-transparent appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%23666666%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[length:1.18em] bg-[right_0.8rem_center] bg-no-repeat pr-12"
+              required
+            >
+              <!-- Video qualities -->
+              <option value="2160" class="video-quality">4K (2160p)</option>
+              <option value="1440" class="video-quality">QHD (1440p)</option>
+              <option value="1080" class="video-quality">FHD (1080p)</option>
+              <option value="720" class="video-quality" selected>
+                HD (720p)
+              </option>
+              <option value="480" class="video-quality">SD (480p)</option>
+              <option value="360" class="video-quality">LD (360p)</option>
 
-                <div>
-                    <button 
-                        type="submit" 
-                        id="downloadBtn"
-                        class="px-4 py-2.5 rounded-full bg-[#ff0000] hover:bg-[#cc0000] text-white font-bold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        Download Video
-                    </button>
-                </div>
-            </form>
+              <!-- Audio qualities -->
+              <option value="320" class="audio-quality hidden">320 kbps</option>
+              <option value="256" class="audio-quality hidden">256 kbps</option>
+              <option value="192" class="audio-quality hidden">192 kbps</option>
+              <option value="128" class="audio-quality hidden">128 kbps</option>
+            </select>
+          </div>
 
-            <!-- Status Section -->
-            <div id="status" class="mt-6 hidden text-center">
-                <div class="flex justify-center mb-6">
-                    <div id="loadingSpinner" class="hidden">
-                        <div class="w-12 h-12 border-4 border-[#ff0000] border-t-transparent rounded-full animate-spin"></div>
-                    </div>
-                </div>
-                <div id="alert" class="alert rounded-xl p-4 text-sm font-medium text-black/90"></div>
+          <div>
+            <button
+              type="submit"
+              id="downloadBtn"
+              class="px-4 py-2.5 rounded-full bg-[#ff0000] hover:bg-[#cc0000] text-white font-bold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Download Video
+            </button>
+          </div>
+        </form>
+
+        <!-- Status Section -->
+        <div id="status" class="mt-6 hidden text-center">
+          <div class="flex justify-center mb-6">
+            <div id="loadingSpinner" class="hidden">
+              <div
+                class="w-12 h-12 border-4 border-[#ff0000] border-t-transparent rounded-full animate-spin"
+              ></div>
             </div>
+          </div>
+          <div
+            id="alert"
+            class="alert rounded-xl p-4 text-sm font-medium text-black/90"
+          ></div>
         </div>
+      </div>
     </div>
 
     <script>
-        function updateQualityOptions() {
-            const format = document.getElementById('format').value;
-            const qualitySelect = document.getElementById('quality');
-            const videoQualities = qualitySelect.getElementsByClassName('video-quality');
-            const audioQualities = qualitySelect.getElementsByClassName('audio-quality');
-            
-            // Hide all options first
-            Array.from(videoQualities).forEach(opt => opt.classList.add('hidden'));
-            Array.from(audioQualities).forEach(opt => opt.classList.add('hidden'));
-            
-            // Show relevant options
-            if (format === 'mp4') {
-                Array.from(videoQualities).forEach(opt => opt.classList.remove('hidden'));
-                qualitySelect.value = '720'; // Default to 720p
-            } else {
-                Array.from(audioQualities).forEach(opt => opt.classList.remove('hidden'));
-                qualitySelect.value = '320'; // Default to 320kbps
-            }
-        }
-        
-        // Initialize quality options on page load
-        updateQualityOptions();
+      function updateQualityOptions() {
+        const format = document.getElementById("format").value;
+        const qualitySelect = document.getElementById("quality");
+        const videoQualities =
+          qualitySelect.getElementsByClassName("video-quality");
+        const audioQualities =
+          qualitySelect.getElementsByClassName("audio-quality");
 
-        document.getElementById('downloadForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const statusDiv = document.getElementById('status');
-            const alert = document.getElementById('alert');
-            const downloadBtn = document.getElementById('downloadBtn');
-            const loadingSpinner = document.getElementById('loadingSpinner');
-            const form = e.target;
-            
-            // Show loading state
-            statusDiv.classList.remove('hidden');
-            alert.className = 'text-[#fafafa] bg-black rounded-2xl py-3 border border-gray-200';
-            alert.textContent = 'Downloading... This may take a while.';
-            downloadBtn.disabled = true;
-            loadingSpinner.classList.remove('hidden');
-            
-            try {
-                const formData = new FormData(form);
-                const response = await fetch('/download', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                if (response.ok) {
-                    const blob = await response.blob();
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    const contentDisposition = response.headers.get('content-disposition');
-                    let fileName = 'download';
-                    
-                    if (contentDisposition) {
-                        const fileNameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
-                        if (fileNameMatch && fileNameMatch[1]) {
-                            fileName = fileNameMatch[1].replace(/['"]/g, '');
-                        }
-                    }
-                    
-                    a.href = url;
-                    a.download = fileName;
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    a.remove();
-                    
-                    alert.className = 'text-[#fafafa] bg-[#ff0000] rounded-2xl py-3 border border-gray-200';
-                    alert.textContent = 'Downloaded!';
-                } else {
-                    const data = await response.json();
-                    throw new Error(data.message);
+        // Hide all options first
+        Array.from(videoQualities).forEach((opt) =>
+          opt.classList.add("hidden")
+        );
+        Array.from(audioQualities).forEach((opt) =>
+          opt.classList.add("hidden")
+        );
+
+        // Show relevant options
+        if (format === "mp4") {
+          Array.from(videoQualities).forEach((opt) =>
+            opt.classList.remove("hidden")
+          );
+          qualitySelect.value = "720"; // Default to 720p
+        } else {
+          Array.from(audioQualities).forEach((opt) =>
+            opt.classList.remove("hidden")
+          );
+          qualitySelect.value = "320"; // Default to 320kbps
+        }
+      }
+
+      // Initialize quality options on page load
+      updateQualityOptions();
+
+      document
+        .getElementById("downloadForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const statusDiv = document.getElementById("status");
+          const alert = document.getElementById("alert");
+          const downloadBtn = document.getElementById("downloadBtn");
+          const loadingSpinner = document.getElementById("loadingSpinner");
+          const form = e.target;
+
+          // Show loading state
+          statusDiv.classList.remove("hidden");
+          alert.className =
+            "text-[#fafafa] bg-black rounded-2xl py-3 border border-gray-200";
+          alert.textContent = "Downloading... This may take a while.";
+          downloadBtn.disabled = true;
+          loadingSpinner.classList.remove("hidden");
+
+          try {
+            const formData = new FormData(form);
+            const response = await fetch("/download", {
+              method: "POST",
+              body: formData,
+            });
+
+            if (response.ok) {
+              const blob = await response.blob();
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              const contentDisposition = response.headers.get(
+                "content-disposition"
+              );
+              let fileName = "download";
+
+              if (contentDisposition) {
+                const fileNameMatch = contentDisposition.match(
+                  /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/
+                );
+                if (fileNameMatch && fileNameMatch[1]) {
+                  fileName = fileNameMatch[1].replace(/['"]/g, "");
                 }
-            } catch (error) {
-                alert.className = 'text-[#fafafa] bg-red-800 rounded-2xl py-3 border border-gray-200';
-                alert.textContent = `Error: ${error.message}`;
-            } finally {
-                downloadBtn.disabled = false;
-                loadingSpinner.classList.add('hidden');
-                form.reset();
+              }
+
+              a.href = url;
+              a.download = fileName;
+              document.body.appendChild(a);
+              a.click();
+              window.URL.revokeObjectURL(url);
+              a.remove();
+
+              alert.className =
+                "text-[#fafafa] bg-[#ff0000] rounded-2xl py-3 border border-gray-200";
+              alert.textContent = "Downloaded!";
+            } else {
+              const data = await response.json();
+              throw new Error(data.message);
             }
+          } catch (error) {
+            alert.className =
+              "text-[#fafafa] bg-red-800 rounded-2xl py-3 border border-gray-200";
+            alert.textContent = `Error: ${error.message}`;
+          } finally {
+            downloadBtn.disabled = false;
+            loadingSpinner.classList.add("hidden");
+            form.reset();
+          }
         });
     </script>
-</body>
+  </body>
 </html>
