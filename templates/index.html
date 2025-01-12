@@ -20,13 +20,13 @@
     <div class="max-w-3xl w-full">
         <!-- Header with Icons -->
         <div class="text-center space-y-6 mb-12">
-            <div class="flex items-center justify-center gap-2">
-                <h1 class="text-4xl font-bold text-[#ff0000]">YouTube Video Downloader</h1>
+            <div class="flex items-center justify-center gap-4">
                 <div class="w-12 h-12 text-[#ff0000]">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
                     </svg>
                 </div>
+                <h1 class="text-4xl font-bold text-[#ff0000]">YouTube Video Downloader</h1>
             </div>
         </div>
 
@@ -110,15 +110,34 @@
                 });
                 
                 if (response.ok) {
-                    const data = await response.json();
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    const contentDisposition = response.headers.get('content-disposition');
+                    let fileName = 'download';
+                    
+                    if (contentDisposition) {
+                        const fileNameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+                        if (fileNameMatch && fileNameMatch[1]) {
+                            fileName = fileNameMatch[1].replace(/['"]/g, '');
+                        }
+                    }
+                    
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    a.remove();
+                    
                     alert.className = 'text-[#fafafa] bg-[#ff0000] rounded-2xl py-3 border border-gray-200';
-                    alert.textContent = 'Download complete! Check your downloads folder.';
+                    alert.textContent = 'Downloaded!';
                 } else {
                     const data = await response.json();
                     throw new Error(data.message);
                 }
             } catch (error) {
-                alert.className = 'text-[#fafafa] bg-red-600 rounded-2xl py-3 border border-gray-200';
+                alert.className = 'text-[#fafafa] bg-red-800 rounded-2xl py-3 border border-gray-200';
                 alert.textContent = `Error: ${error.message}`;
             } finally {
                 downloadBtn.disabled = false;
