@@ -25,6 +25,8 @@ just another youtube downloader.
    
 4. **そうそう** you good to go. Run `python app.py` and download unlimited videos.
 
+⚠️ Dependencies could be outdated in `requirements.txt` so update these manually.
+
 It's open-source under **MIT**.
 
 *Here's the screenshot btw.*
