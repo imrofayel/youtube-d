@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video Downloader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Geist', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-[#fafafa] min-h-screen flex items-center justify-center p-6">
+    <div class="max-w-3xl w-full">
+        <!-- Header with Icons -->
+        <div class="text-center space-y-6 mb-12">
+            <div class="flex items-center justify-center gap-2">
+                <h1 class="text-4xl font-bold text-[#ff0000]">YouTube Video Downloader</h1>
+                <div class="w-12 h-12 text-[#ff0000]">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Card -->
+        <div class="bg-white bg-opacity-80 rounded-3xl p-6 border border-gray-200">
+            <form id="downloadForm" class="space-y-6">
+                <div class="space-y-4">
+                    <label for="video_url" class="block text-gray-800 drop-shadow-sm font-medium">
+                        YouTube Video URL
+                    </label>
+                    <input 
+                        type="text" 
+                        id="video_url" 
+                        name="video_url" 
+                        class="w-full px-4 py-3 focus:bg-gray-50/70 selection:bg-transparent !bg-gray-50/70 rounded-3xl p-8 border border-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#ff0000] focus:border-transparent"
+                        placeholder="https://www.youtube.com/watch?v=..." 
+                        required
+                    >
+                </div>
+
+                <div class="space-y-4">
+                    <label for="format" class="block text-gray-800 drop-shadow-sm font-medium">
+                        Download Format
+                    </label>
+                    <select 
+                        id="format" 
+                        name="format" 
+                        class="w-full px-4 py-3 focus:bg-gray-50/70 selection:bg-transparent !bg-gray-50/70 rounded-3xl border border-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#ff0000] focus:border-transparent"
+                        required
+                    >
+                        <option value="mp4">MP4 (Video)</option>
+                        <option value="mp3">MP3 (Audio)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <button 
+                        type="submit" 
+                        id="downloadBtn"
+                        class="px-4 py-2.5 rounded-full bg-[#ff0000] hover:bg-[#cc0000] text-white font-bold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        Download Video
+                    </button>
+                </div>
+            </form>
+
+            <!-- Status Section -->
+            <div id="status" class="mt-6 hidden text-center">
+                <div class="flex justify-center mb-6">
+                    <div id="loadingSpinner" class="hidden">
+                        <div class="w-12 h-12 border-4 border-[#ff0000] border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                </div>
+                <div id="alert" class="alert rounded-xl p-4 text-sm font-medium text-black/90"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('downloadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const statusDiv = document.getElementById('status');
+            const alert = document.getElementById('alert');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const form = e.target;
+            
+            // Show loading state
+            statusDiv.classList.remove('hidden');
+            alert.className = 'text-[#fafafa] bg-black rounded-2xl py-3 border border-gray-200';
+            alert.textContent = 'Downloading video... This may take a while.';
+            downloadBtn.disabled = true;
+            loadingSpinner.classList.remove('hidden');
+            
+            try {
+                const formData = new FormData(form);
+                const response = await fetch('/download', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    alert.className = 'text-[#fafafa] bg-[#ff0000] rounded-2xl py-3 border border-gray-200';
+                    alert.textContent = 'Download complete! Check your downloads folder.';
+                } else {
+                    const data = await response.json();
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                alert.className = 'text-[#fafafa] bg-red-600 rounded-2xl py-3 border border-gray-200';
+                alert.textContent = `Error: ${error.message}`;
+            } finally {
+                downloadBtn.disabled = false;
+                loadingSpinner.classList.add('hidden');
+                form.reset();
+            }
+        });
+    </script>
+</body>
+</html>
