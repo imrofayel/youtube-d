@@ -1,80 +1,32 @@
+## Youtube Downloader :trollface:
 
-# YouTube Video Downloader
+just another youtube downloader.
 
-This Python script allows you to download and merge the best quality video and audio from YouTube using `yt-dlp`. It automatically installs `yt-dlp` if it's not already installed on your system.
+<img src="https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/Flask-000000?style=flat&logo=flask&logoColor=white">
 
-## Requirements
+`ffmpeg` must be installed on your system for merging video and audio streams.
 
-- Python 3.x
-- `ffmpeg` must be installed on your system for merging video and audio streams.
+1. Install **Python 3.x & pip**.
 
-### Installing `ffmpeg`
-
-#### Windows
-1. Download `ffmpeg` from [FFmpeg's official site](https://ffmpeg.org/download.html).
-2. Extract the ZIP file and add the `bin` directory to your system's PATH environment variable.
-
-#### macOS
-Install `ffmpeg` using Homebrew:
-```bash
-brew install ffmpeg
-```
-
-#### Linux
-Install `ffmpeg` using your package manager. For example, on Ubuntu:
-```bash
-sudo apt update
-sudo apt install ffmpeg
-```
-
-## Usage
-
-1. Clone this repository:
+2. Download [`ffmpeg-git-essentials.7z`](https://www.gyan.dev/ffmpeg/builds/) and extract the downloaded file in `C:\` and rename the extracted folder to `ffmpeg`. Add `C:\ffmpeg\bin` to your system's **PATH** environment variable.
+   
+3. **Clone** the repository and create a **virtual environment** (recommended)
    ```bash
-   git clone https://github.com/aswinop/yt-downloader.git
-   cd yt-downloader
+   python -m venv venv
    ```
-
-2. Run the script:
+   activate the **virtual environment** by running
+     ```bash
+     .\venv\Scripts\activate.bat
+     ```
+     and then install **dependencies**, if any dependency isn't there, dont worry `python 🐍` gonna tell you.
    ```bash
-   python download_video.py
+   pip install -r requirements.txt
    ```
+   
+4. **そうそう** you good to go. Run `python app.py` and download unlimited videos.
 
-3. Select the method when prompted:
-   ```
-   Methods Available:-
-     1) Auto Detect
-     2) Download Youtube Video
-     3) Download Youtube Music
-     4) Advanced Options
+It's open-source under **MIT**.
 
-   Your Choice:
-   ```
+*Here's the screenshot btw.*
 
-4. Enter the YouTube video/music URL when prompted:
-   ```
-   Enter the YouTube video URL: https://www.youtube.com/watch?v=your-video-id
-   ```
-   OR
-   ```
-   Enter the Youtube Music URL: https://music.youtube.com/watch?v=your-video-id
-   ```
-
-5. The script will download the best available video and audio streams, merge them, and save the file in the current directory.
-
-## Example Output
-
-```
-yt-dlp is not installed. Installing now...
-[yt-dlp] Downloading video...
-Title: Example Video Title
-Download completed! File saved as Example Video Title.mp4
-```
-
-## Contributing
-
-Feel free to submit issues or pull requests to improve the script.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+<img width="650" alt="image" src="https://github.com/user-attachments/assets/115854b3-6486-4982-839d-f6482a2049a7" />
