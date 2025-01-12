@@ -56,9 +56,36 @@
                         name="format" 
                         class="w-full px-4 py-3 focus:bg-gray-50/70 selection:bg-transparent !bg-gray-50/70 rounded-3xl border border-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#ff0000] focus:border-transparent"
                         required
+                        onchange="updateQualityOptions()"
                     >
                         <option value="mp4">MP4 (Video)</option>
                         <option value="mp3">MP3 (Audio)</option>
+                    </select>
+                </div>
+
+                <div class="space-y-4">
+                    <label for="quality" class="block text-gray-800 drop-shadow-sm font-medium">
+                        Quality
+                    </label>
+                    <select 
+                        id="quality" 
+                        name="quality" 
+                        class="w-full px-4 py-3 focus:bg-gray-50/70 selection:bg-transparent !bg-gray-50/70 rounded-3xl border border-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#ff0000] focus:border-transparent"
+                        required
+                    >
+                        <!-- Video qualities -->
+                        <option value="2160" class="video-quality">4K (2160p)</option>
+                        <option value="1440" class="video-quality">QHD (1440p)</option>
+                        <option value="1080" class="video-quality">FHD (1080p)</option>
+                        <option value="720" class="video-quality" selected>HD (720p)</option>
+                        <option value="480" class="video-quality">SD (480p)</option>
+                        <option value="360" class="video-quality">LD (360p)</option>
+                        
+                        <!-- Audio qualities -->
+                        <option value="320" class="audio-quality hidden">320 kbps</option>
+                        <option value="256" class="audio-quality hidden">256 kbps</option>
+                        <option value="192" class="audio-quality hidden">192 kbps</option>
+                        <option value="128" class="audio-quality hidden">128 kbps</option>
                     </select>
                 </div>
 
@@ -86,6 +113,29 @@
     </div>
 
     <script>
+        function updateQualityOptions() {
+            const format = document.getElementById('format').value;
+            const qualitySelect = document.getElementById('quality');
+            const videoQualities = qualitySelect.getElementsByClassName('video-quality');
+            const audioQualities = qualitySelect.getElementsByClassName('audio-quality');
+            
+            // Hide all options first
+            Array.from(videoQualities).forEach(opt => opt.classList.add('hidden'));
+            Array.from(audioQualities).forEach(opt => opt.classList.add('hidden'));
+            
+            // Show relevant options
+            if (format === 'mp4') {
+                Array.from(videoQualities).forEach(opt => opt.classList.remove('hidden'));
+                qualitySelect.value = '720'; // Default to 720p
+            } else {
+                Array.from(audioQualities).forEach(opt => opt.classList.remove('hidden'));
+                qualitySelect.value = '320'; // Default to 320kbps
+            }
+        }
+        
+        // Initialize quality options on page load
+        updateQualityOptions();
+
         document.getElementById('downloadForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
