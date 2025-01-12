@@ -2,4 +2,6 @@
 .cache
 *.venv
 
+DOWNLOADS/
+
 __pycache__

@@ -16,7 +16,7 @@ except ImportError:
     import yt_dlp
 
 def thanks():
-    print("\nThank you for using this tool ❤️")
+    print("\nThank you for using this tool ")
 
 def download_youtube_music_playlist(playlist_url):
     try:
@@ -42,7 +42,10 @@ def download_youtube_music_playlist(playlist_url):
         else:
             selected_videos = [int(x) - 1 for x in selected_videos.split()]
 
-        playlist_dir = playlist_title
+        downloads_dir = os.path.join(os.getcwd(), "DOWNLOADS")
+        os.makedirs(downloads_dir, exist_ok=True)
+        
+        playlist_dir = os.path.join(downloads_dir, playlist_title)
         os.makedirs(playlist_dir, exist_ok=True)
 
         threads = []
@@ -56,7 +59,7 @@ def download_youtube_music_playlist(playlist_url):
         for thread in threads:
             thread.join()
 
-        print("\n\nDownload complete! Files saved in the directory `", playlist_title, "`")
+        print("\n\nDownload complete! Files saved in the directory `DOWNLOADS/", playlist_title, "`")
 
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -83,7 +86,10 @@ def download_youtube_video_playlist(playlist_url):
         else:
             selected_videos = [int(x) - 1 for x in selected_videos.split()]
 
-        playlist_dir = playlist_title
+        downloads_dir = os.path.join(os.getcwd(), "DOWNLOADS")
+        os.makedirs(downloads_dir, exist_ok=True)
+        
+        playlist_dir = os.path.join(downloads_dir, playlist_title)
         os.makedirs(playlist_dir, exist_ok=True)
 
         threads = []
@@ -97,7 +103,7 @@ def download_youtube_video_playlist(playlist_url):
         for thread in threads:
             thread.join()
 
-        print("\n\nDownload completed! Files saved in the directory `", playlist_title, "`")
+        print("\n\nDownload completed! Files saved in the directory `DOWNLOADS/", playlist_title, "`")
 
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -117,36 +123,44 @@ def determine_url_type_and_download(url):
         print("The link is of Youtube\n\n")
         download_youtube_video(url)
     else:
-        print("\n⚠️INVALID LINK⚠️\n")
+        print("\nINVALID LINK\n")
 
 def download_youtube_music(url):
     try:
+        # Create DOWNLOADS directory if it doesn't exist
+        downloads_dir = os.path.join(os.getcwd(), "DOWNLOADS")
+        os.makedirs(downloads_dir, exist_ok=True)
+        
         ydl_opts = {
             'format': 'bestaudio/best',
             'merge_output_format': 'mp3',
-            'outtmpl': '%(title)s.%(ext)s'
+            'outtmpl': os.path.join(downloads_dir, '%(title)s.%(ext)s')
         }
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(url, download=True)
             print(f"Title: {info_dict.get('title', 'Unknown Title')}")
-            print(f"Download completed! File saved as {info_dict.get('title', 'Unknown Title')}.{info_dict.get('ext', 'mp3')}")
+            print(f"Download completed! File saved in DOWNLOADS folder as {info_dict.get('title', 'Unknown Title')}.{info_dict.get('ext', 'mp3')}")
 
     except Exception as e:
         print(f"An error occurred: {e}")
 
 def download_youtube_video(url):
     try:
+        # Create DOWNLOADS directory if it doesn't exist
+        downloads_dir = os.path.join(os.getcwd(), "DOWNLOADS")
+        os.makedirs(downloads_dir, exist_ok=True)
+        
         ydl_opts = {
             'format': 'bestvideo+bestaudio/best',
             'merge_output_format': 'mp4',
-            'outtmpl': '%(title)s.%(ext)s',
+            'outtmpl': os.path.join(downloads_dir, '%(title)s.%(ext)s'),
         }
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(url, download=True)
             print(f"Title: {info_dict.get('title', 'Unknown Title')}")
-            print(f"Download completed! File saved as {info_dict.get('title', 'Unknown Title')}.{info_dict.get('ext', 'mp4')}")
+            print(f"Download completed! File saved in DOWNLOADS folder as {info_dict.get('title', 'Unknown Title')}.{info_dict.get('ext', 'mp4')}")
 
     except Exception as e:
         print(f"An error occurred: {e}")
